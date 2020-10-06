@@ -109,19 +109,22 @@ export default function StarredRepos({session}) {
     >
       <Head>
         <title>Hacktoberfest Stars</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico"
+          style={{
+            pointerEvents: 'none',
+            userSelect: 'none'
+          }}
+        />
       </Head>
 
       {loading &&
-        <div
+        <img src="/loading.svg" alt="Loading" width="50px"
           style={{
             position: 'fixed',
             bottom: '2rem',
             right: '2rem'
           }}
-        >
-          <img src="/loading.svg" alt="Loading" width="50px" />
-        </div>
+        />
       }
 
       <div
