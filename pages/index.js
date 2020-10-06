@@ -167,8 +167,9 @@ export default function StarredRepos({session}) {
           flex-col
           gap-2
           rounded
-          border
           shadow-xl
+          border
+          border-gray-700
           text-white
         "
       >

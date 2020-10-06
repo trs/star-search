@@ -3,9 +3,29 @@ import { getSession, signOut } from 'next-auth/client';
 export default function GithubLogout({session}) {
   if (!session) return null;
 
-  return <>
-    <button onClick={() => signOut('github')}>Sign out</button>
-  </>
+  return (
+    <div
+      className="
+        flex
+        justify-center
+        items-center
+      "
+    >
+      <button
+        className="
+          rounded-lg
+          text-gray-100
+          px-6
+          py-4
+          uppercase
+        "
+        style={{
+          backgroundColor: '#0069ff'
+        }}
+        onClick={() => signOut('github')}
+      >Sign out</button>
+    </div>
+  );
 }
 
 export async function getServerSideProps(context) {
