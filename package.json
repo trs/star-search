@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@rehooks/local-storage": "^2.4.0",
     "autoprefixer": "^9.8.6",
     "color": "^3.1.2",
     "graphql": "^15.3.0",
@@ -17,6 +18,7 @@
     "next-auth": "^3.1.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "tailwindcss": "^1.8.10"
+    "tailwindcss": "^1.8.10",
+    "use-persisted-state": "^0.3.0"
   }
 }

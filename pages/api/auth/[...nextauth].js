@@ -19,12 +19,10 @@ const options = {
     error: '/auth/error'
   },
   callbacks: {
-    signIn: async (user, account, profile, ...args) => {
-      return true;
-    },
     session: async (session, user) => {
       session.accessToken = user.accessToken;
       session.refreshToken = user.refreshToken;
+      session.user = {...session.user, ...user};
       return session;
     },
     jwt: async (token, user, account, profile) => {

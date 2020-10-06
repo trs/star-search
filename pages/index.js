@@ -1,33 +1,39 @@
 import React, { useState, useContext, useEffect } from 'react';
-import color from 'color';
 
 import Head from 'next/head';
 import Link from 'next/link';
 
 import { getSession } from 'next-auth/client';
 import { useQuery, ClientContext } from 'graphql-hooks'
+import createPersistedState from 'use-persisted-state';
+
+import { Repository } from '../components/Repository';
+
+const useRepos = createPersistedState('repos');
 
 const STARRED_REPOSITORIES = `
   query StarredRespositories($limit: Int, $cursor: String) {
     viewer {
       starredRepositories(
         first:$limit,
-        orderBy:{field:STARRED_AT,direction:DESC},
+        orderBy:{field:STARRED_AT,direction:ASC},
         after:$cursor
       ) {
         pageInfo {
-          endCursor,
-          hasNextPage
+          startCursor
         }
         nodes {
           id
           name
           url
-          description,
-          descriptionHTML
-          labels(first: 1, query:"hacktoberfest") {
-            nodes {
-              name
+          description
+          repositoryTopics(first:100) {
+            nodes{
+              id
+              topic {
+                id
+                name
+              }
             }
           }
           issues(
@@ -75,15 +81,19 @@ const STARRED_REPOSITORIES = `
 export default function StarredRepos({session}) {
   if (!session) return null;
 
+  const [localStorageRepos, setLocalStorageRepos] = useRepos([]);
+
   const [cursor, setCursor] = useState(null);
-  const [repos, setRepos] = useState([]);
+  const [repos, setRepos] = useState(localStorageRepos);
 
   const client = useContext(ClientContext);
   client.setHeader('authorization', `bearer ${session.accessToken}`);
 
-  const {loading, error, data} = useQuery(STARRED_REPOSITORIES, {
+  const loading = true;
+
+  const { error, data} = useQuery(STARRED_REPOSITORIES, {
     variables: {
-      limit: 10,
+      limit: 100,
       cursor
     }
   });
@@ -91,14 +101,25 @@ export default function StarredRepos({session}) {
   useEffect(() => {
     if (!data) return;
 
-    const {endCursor} = data.viewer.starredRepositories.pageInfo;
-    if (endCursor !== null) {
-      setCursor(endCursor);
+    const {startCursor} = data.viewer.starredRepositories.pageInfo;
+    if (startCursor !== null) {
+      setCursor(startCursor);
     }
-    setRepos((repos) => repos.concat(data.viewer.starredRepositories.nodes.filter(({labels}) => labels.nodes.length > 0)));
+
+    setRepos((repos) => repos.concat(
+      data.viewer.starredRepositories.nodes
+        .filter(({repositoryTopics}) => repositoryTopics.nodes.some(
+          ({topic}) => topic.name.toLocaleLowerCase() === 'hacktoberfest'
+        ))
+        .filter((repo) => !repos.some((r) => r.id === repo.id))
+    ));
   }, [data]);
 
-  if (error) return <p>Error</p>;
+  useEffect(() => {
+    setLocalStorageRepos(repos);
+  }, [repos]);
+
+  // if (error) return <p>Error</p>;
 
   return (
     <main className="
@@ -113,7 +134,19 @@ export default function StarredRepos({session}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="
+      {loading &&
+        <div className="
+          fixed
+          bottom-0
+          right-0
+          m-8
+          bg-transparent
+        ">
+          <img src="/loading.svg" alt="Loading" width="50px" />
+        </div>
+      }
+
+      {/* <header className="
         flex
         flex-row
       ">
@@ -121,156 +154,31 @@ export default function StarredRepos({session}) {
           <h1>Hacktoberfest Stars</h1>
           <p>Your starred repositories that are eligible for Hacktoberfest</p>
         </div>
-        {loading && <p>Loading...</p>}
+
         <Link href="/auth/logout"><a>Logout</a></Link>
-      </header>
+      </header> */}
 
-      <div className="
-        flex
-        flex-col
-        gap-4
-      ">
-      {
-        repos.map((repo) => {
-          console.log(repo)
-          return (
-            <article key={repo.id} className="
-              p-2
-              rounded
-              border
-              border-gray-400
-              shadow
-              max-w-screen-sm
-            ">
-              <div
-                className="
-                  pb-2
-                  px-2
-                  grid
-                "
-                style={{
-                  gridTemplateColumns: '1fr auto',
-                  gridTemplateRows: 'auto auto auto'
-                }}
-              >
-
-                <span className="">
-                  <h2 className="
-                    text-2xl
-                    font-sans
-                    font-medium
-                  ">{repo.name}</h2>
-                </span>
-
-                <span className="">
-                  <a target="_blank" rel="noopener noreferrer" href={repo.url}>
-                    <img src="/github.svg" className=""/>
-                  </a>
-                </span>
-
-                <span className="
-                  break-words
-                  col-span-2
-                ">{repo.description}</span>
-
-                <span className="
-                  flex
-                  flex-row
-                  rounded
-                  col-span-2
-                ">
-                {
-                  repo.languages.edges.map(({size, node}) => {
-                    return (
-                      <span
-                        key={node.id}
-                        style={{
-                          backgroundColor: node.color,
-                          width: `${(size / repo.languages.totalSize) * 100}%`,
-                          height: '12px'
-                        }}
-                        className="
-                          first:rounded-l
-                          last:rounded-r
-                        "
-                      ></span>
-                    );
-                  })
-                }
-                </span>
-              </div>
-
-              <div className="
-                flex
-                flex-col
-                gap-2
-              ">
-              {
-                repo.issues.nodes.map((issue) => {
-                  return (
-                    <a target="_blank" rel="noopener noreferrer" href={issue.url}>
-                      <div key={issue.id} className="
-                        flex
-                        flex-col
-                        gap-2
-                        py-2
-                        px-2
-                        rounded
-                        border
-                        border-transparent
-                        hover:border-gray-400
-                        hover:shadow-inner
-                      ">
-
-                        <div className="
-                          flex
-                          flex-row
-                          gap-2
-                        ">
-                          <img src="/issue.svg" alt="Issue" />
-                          <h3>{issue.title}</h3>
-                        </div>
-
-                        <div className="
-                          flex
-                          flex-row
-                          gap-2
-                        ">
-                        {
-                          issue.labels.nodes.map((issue) => {
-                            return (
-                              <span
-                                key={issue.id}
-                                style={{
-                                  backgroundColor: `#${issue.color}`
-                                }}
-                                className={`
-                                  rounded
-                                  py-1
-                                  px-2
-                                  ${
-                                    color(`#${issue.color}`).isLight()
-                                    ? 'text-gray-900'
-                                    : 'text-gray-100'
-                                  }
-                                `}
-                              >
-                                {issue.name}
-                              </span>
-                            )
-                          })
-                        }
-                        </div>
-                      </div>
-                    </a>
-                  );
-                })
-              }
-              </div>
-            </article>
-          );
-        })
-      }
+      <div
+        style={{
+          backgroundColor: '#183d5d'
+        }}
+        className="
+          flex
+          flex-col
+          gap-2
+          rounded
+          border
+          shadow-xl
+          text-white
+        "
+      >
+        {
+          repos.map((repo) => {
+            return (
+              <Repository key={repo.id} repo={repo} />
+            );
+          })
+        }
       </div>
     </main>
   )
@@ -281,7 +189,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     context.res.writeHead(302, {Location: '/auth/login'});
     context.res.end();
-    return {};
+    return {props: {}};
   }
 
   return {
