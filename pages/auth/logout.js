@@ -13,6 +13,8 @@ export default function GithubLogout({session}) {
     >
       <button
         style={{
+          fontSize: '1rem',
+          border: 'none',
           borderRadius: '0.75rem',
           color: '#F7FAFC',
           padding: '1rem 1.25rem',
