@@ -108,7 +108,7 @@ export default function StarredRepos({session}) {
       }}
     >
       <Head>
-        <title>Create Next App</title>
+        <title>Hacktoberfest Stars</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
