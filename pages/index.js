@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 
 import Head from 'next/head';
-import Link from 'next/link';
 
 import { getSession } from 'next-auth/client';
 import { useQuery, ClientContext } from 'graphql-hooks'
@@ -89,9 +88,7 @@ export default function StarredRepos({session}) {
   const client = useContext(ClientContext);
   client.setHeader('authorization', `bearer ${session.accessToken}`);
 
-  const loading = true;
-
-  const { error, data} = useQuery(STARRED_REPOSITORIES, {
+  const { loading, error, data} = useQuery(STARRED_REPOSITORIES, {
     variables: {
       limit: 100,
       cursor
@@ -119,7 +116,9 @@ export default function StarredRepos({session}) {
     setLocalStorageRepos(repos);
   }, [repos]);
 
-  // if (error) return <p>Error</p>;
+  if (error) {
+    console.error(error);
+  }
 
   return (
     <main className="
@@ -145,18 +144,6 @@ export default function StarredRepos({session}) {
           <img src="/loading.svg" alt="Loading" width="50px" />
         </div>
       }
-
-      {/* <header className="
-        flex
-        flex-row
-      ">
-        <div>
-          <h1>Hacktoberfest Stars</h1>
-          <p>Your starred repositories that are eligible for Hacktoberfest</p>
-        </div>
-
-        <Link href="/auth/logout"><a>Logout</a></Link>
-      </header> */}
 
       <div
         style={{
