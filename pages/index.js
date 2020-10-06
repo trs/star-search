@@ -9,6 +9,7 @@ import createPersistedState from 'use-persisted-state';
 import { Repository } from '../components/Repository';
 
 const useRepos = createPersistedState('repos');
+const useCursor = createPersistedState('repo-cursor');
 
 const STARRED_REPOSITORIES = `
   query StarredRespositories($limit: Int, $cursor: String) {
@@ -19,7 +20,7 @@ const STARRED_REPOSITORIES = `
         after:$cursor
       ) {
         pageInfo {
-          startCursor
+          endCursor
         }
         totalCount
         nodes {
@@ -37,7 +38,7 @@ const STARRED_REPOSITORIES = `
             }
           }
           languages(
-            first:5,
+            first:10,
             orderBy:{field:SIZE,direction:DESC}
           ) {
             totalSize
@@ -60,10 +61,9 @@ export default function StarredRepos({session}) {
   if (!session) return null;
 
   const [localStorageRepos, setLocalStorageRepos] = useRepos([]);
+  const [cursor, setCursor] = useCursor(null);
 
-  const [cursor, setCursor] = useState(null);
   const [repos, setRepos] = useState(localStorageRepos);
-  const [readCount, setReadCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
 
   const client = useContext(ClientContext);
@@ -79,20 +79,21 @@ export default function StarredRepos({session}) {
   useEffect(() => {
     if (!data) return;
 
-    const {startCursor} = data.viewer.starredRepositories.pageInfo;
-    if (startCursor !== null) {
-      setCursor(startCursor);
+    const {endCursor} = data.viewer.starredRepositories.pageInfo;
+    if (endCursor !== null) {
+      setCursor(endCursor);
     }
 
     setTotalCount(data.viewer.starredRepositories.totalCount);
-    setReadCount((count) => count + data.viewer.starredRepositories.nodes.length);
 
-    setRepos((repos) => repos.concat(
-      data.viewer.starredRepositories.nodes
-        .filter(({repositoryTopics}) => repositoryTopics.nodes.some(
-          ({topic}) => topic.name.toLocaleLowerCase() === 'hacktoberfest'
-        ))
-        .filter((repo) => !repos.some((r) => r.id === repo.id))
+    const eligibleRepos = data.viewer.starredRepositories.nodes
+      .filter(({repositoryTopics}) => repositoryTopics.nodes.some(
+        ({topic}) => topic.name.toLocaleLowerCase() === 'hacktoberfest'
+      ));
+
+    setRepos((repos) => repos
+      .map((repo) => eligibleRepos.find((r) => r.id === repo.id) || repo)
+      .concat(eligibleRepos.filter((repo) => !repos.some((r) => r.id === repo.id))
     ));
   }, [data]);
 
@@ -116,23 +117,51 @@ export default function StarredRepos({session}) {
     >
       <Head>
         <title>Hacktoberfest Stars</title>
-        <link rel="icon" href="/favicon.ico"
-          style={{
-            pointerEvents: 'none',
-            userSelect: 'none'
-          }}
-        />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {loading &&
-        <img src="/loading.svg" alt="Loading" width="50px"
-          style={{
-            position: 'fixed',
-            bottom: '2rem',
-            right: '2rem'
-          }}
-        />
-      }
+      <div
+        style={{
+          position: 'fixed',
+          bottom: '1rem',
+          right: '1rem',
+          backgroundColor: 'transparent',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '50px',
+          height: '50px'
+        }}
+      >
+        {loading
+          ? <img
+              src="/loading.svg"
+              alt="Loading"
+              width="50px"
+              style={{
+                pointerEvents: 'none',
+                userSelect: 'none'
+              }}
+            />
+          : <button
+              onClick={() => {
+                setRepos([]);
+                setCursor(null);
+              }}
+              style={{
+                border: 'none',
+                cursor: 'pointer',
+                backgroundColor: 'transparent'
+              }}
+            >
+            <img
+              src="/refresh.svg"
+              alt="Refresh"
+              width="25px"
+            />
+          </button>
+        }
+      </div>
 
       <div
         style={{
@@ -165,6 +194,7 @@ export default function StarredRepos({session}) {
         </p>
       </div>
 
+      { repos.length > 0 &&
       <div
         style={{
           backgroundColor: '#183d5d',
@@ -183,6 +213,7 @@ export default function StarredRepos({session}) {
           })
         }
       </div>
+      }
     </main>
   )
 }
