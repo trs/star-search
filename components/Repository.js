@@ -1,6 +1,3 @@
-
-import color from 'color';
-
 export function Repository({repo}) {
   return (
     <article
@@ -10,9 +7,10 @@ export function Repository({repo}) {
         transition
         duration-100
         ease-in-out
-        border-2
+        rounded
+        border
         border-transparent
-        hover:border-gray-100
+        hover:border-gray-200
       "
     >
       <a target="_blank" rel="noopener noreferrer" href={repo.url}
