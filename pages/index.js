@@ -21,6 +21,7 @@ const STARRED_REPOSITORIES = `
         pageInfo {
           startCursor
         }
+        totalCount
         nodes {
           id
           name
@@ -62,6 +63,8 @@ export default function StarredRepos({session}) {
 
   const [cursor, setCursor] = useState(null);
   const [repos, setRepos] = useState(localStorageRepos);
+  const [readCount, setReadCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
 
   const client = useContext(ClientContext);
   client.setHeader('authorization', `bearer ${session.accessToken}`);
@@ -80,6 +83,9 @@ export default function StarredRepos({session}) {
     if (startCursor !== null) {
       setCursor(startCursor);
     }
+
+    setTotalCount(data.viewer.starredRepositories.totalCount);
+    setReadCount((count) => count + data.viewer.starredRepositories.nodes.length);
 
     setRepos((repos) => repos.concat(
       data.viewer.starredRepositories.nodes
@@ -104,7 +110,8 @@ export default function StarredRepos({session}) {
         margin: '0 auto',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        maxWidth: '640px'
       }}
     >
       <Head>
@@ -126,6 +133,37 @@ export default function StarredRepos({session}) {
           }}
         />
       }
+
+      <div
+        style={{
+          color: 'rgb(147, 194, 219)',
+          alignSelf: 'flex-end',
+          fontSize: '1rem',
+          lineHeight: '2rem'
+        }}
+      >
+        <p
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            gap: '0.25rem'
+          }}
+        >
+          <span>⭐</span>
+          <span style={{
+            color: 'rgb(247, 250, 252)',
+            fontWeight: '600',
+            fontSize: '1.25rem'
+          }}
+          >{repos.length}</span>
+          /
+          <span style={{
+            fontWeight: '300'
+          }}
+          >{totalCount > 0 ? totalCount : '...'}</span>
+        </p>
+      </div>
 
       <div
         style={{

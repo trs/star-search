@@ -18,8 +18,7 @@ function MyApp({ Component, pageProps }) {
             gap: '1rem',
             justifyContent: 'center',
             alignItems: 'center',
-            margin: '1rem',
-            marginBottom: '1.5rem'
+            margin: '1rem'
           }}
         >
           <img
@@ -47,7 +46,7 @@ function MyApp({ Component, pageProps }) {
               style={{
                 color: 'rgb(147, 194, 219)'
               }}
-            >Your Hacktoberfest-eligible starred repositories ⭐</p>
+            >Your Hacktoberfest-eligible starred repositories</p>
           </div>
         </header>
 
