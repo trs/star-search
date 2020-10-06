@@ -1,12 +1,8 @@
 import { Provider as AuthProvider } from 'next-auth/client';
 import { GraphQLClient, ClientContext } from 'graphql-hooks';
-import memCache from 'graphql-hooks-memcache';
-
-import '../styles/tailwind.css';
 
 const client = new GraphQLClient({
-  url: 'https://api.github.com/graphql',
-  cache: memCache()
+  url: 'https://api.github.com/graphql'
 })
 
 import '../styles/globals.css';
@@ -16,41 +12,41 @@ function MyApp({ Component, pageProps }) {
     <ClientContext.Provider value={client}>
       <AuthProvider session={pageProps.session}>
         <header
-          className="
-            flex
-            flex-row
-            gap-4
-            justify-center
-            items-center
-            m-4
-            mb-6
-          "
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '1rem',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: '1rem',
+            marginBottom: '1.5rem'
+          }}
         >
           <img
-            className="
-              select-none
-            "
+            style={{
+              userSelect: 'none'
+            }}
             src="Hacktoberfest Stars"
             src="/icon.svg"
             width="100px"
           />
           <div
-            className="
-              flex
-              flex-col
-            "
+            style={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}
           >
             <h1
-              className="
-                text-gray-100
-                text-4xl
-                font-bold
-              "
+              style={{
+                color: 'rgb(247, 250, 252)',
+                fontSize: '2.25rem',
+                fontWeight: 'bold'
+              }}
             >Hacktoberfest Stars</h1>
             <p
-              className="
-                text-gray-200
-              "
+              style={{
+                color: 'rgb(147, 194, 219)'
+              }}
             >Your Hacktoberfest-eligible starred repositories ⭐</p>
           </div>
         </header>
@@ -58,9 +54,9 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
 
         <footer
-          className="
-            h-4
-          "
+          style={{
+            height: '1rem'
+          }}
         ></footer>
       </AuthProvider>
     </ClientContext.Provider>

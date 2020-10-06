@@ -1,45 +1,32 @@
 export function Repository({repo}) {
   return (
     <article
-      className="
-        p-2
-        max-w-screen-sm
-        transition
-        duration-100
-        ease-in-out
-        rounded
-        border
-        border-transparent
-        hover:border-gray-200
-      "
+      style={{
+        color: 'rgb(247, 250, 252)',
+        padding: '0.5rem',
+        transitionProperty: 'border-color',
+        borderRadius: '0.25rem',
+        border: '1px solid transparent',
+        maxWidth: '640px'
+      }}
     >
       <a target="_blank" rel="noopener noreferrer" href={repo.url}
-        className="
-          pb-2
-          px-4
-          flex
-          flex-col
-          gap-2
-        "
         style={{
-          gridTemplateColumns: '1fr auto',
-          gridTemplateRows: 'auto auto auto'
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.6rem',
+          padding: '0 0.5rem',
+          paddingBottom: '0.25rem',
         }}
       >
-
-        <div className="">
-          <h2 className="
-            text-2xl
-            font-sans
-            font-bold
-          ">{repo.name}</h2>
-        </div>
+        <h2 style={{
+          fontSize: '1.5rem',
+          fontWeight: 'bold',
+        }}>{repo.name}</h2>
 
         <div
-          className="
-            text-lg
-          "
           style={{
+            fontSize: '1.1rem',
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis'
@@ -47,12 +34,11 @@ export function Repository({repo}) {
         >{repo.description}</div>
 
         <div
-          className="
-            flex
-            flex-row
-            h-2
-            shadow
-          "
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            height: '0.5rem'
+          }}
         >
         {
           repo.languages.edges.map(({size, node}) => {
@@ -61,13 +47,9 @@ export function Repository({repo}) {
                 key={node.id}
                 style={{
                   backgroundColor: node.color,
-                  width: `${(size / repo.languages.totalSize) * 100}%`
+                  width: `${(size / repo.languages.totalSize) * 100}%`,
+                  height: '100%'
                 }}
-                className="
-                  first:rounded-l
-                  last:rounded-r
-                  h-full
-                "
               ></span>
             );
           })

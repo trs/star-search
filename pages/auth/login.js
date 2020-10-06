@@ -5,21 +5,18 @@ export default function GithubLogin({session}) {
 
   return (
     <div
-      className="
-        flex
-        justify-center
-        items-center
-      "
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'cetner'
+      }}
     >
       <button
-        className="
-          rounded-lg
-          text-gray-100
-          px-6
-          py-4
-          uppercase
-        "
         style={{
+          borderRadius: '0.75rem',
+          color: '#F7FAFC',
+          padding: '1rem 1.25rem',
+          textTransform: 'uppercase',
           backgroundColor: '#0069ff'
         }}
         onClick={() => signIn('github')}
