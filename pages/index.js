@@ -35,30 +35,8 @@ const STARRED_REPOSITORIES = `
               }
             }
           }
-          issues(
-            first: 10,
-            states:OPEN,
-            filterBy:{labels:["hacktoberfest", "good-first-issue"]},
-            orderBy:{field:CREATED_AT,direction:DESC}
-          ) {
-            nodes {
-              id
-              title
-              url
-              labels(
-                first: 10,
-                orderBy:{field:NAME, direction:ASC}
-              ) {
-                nodes {
-                  id
-                  color
-                  name
-                }
-              }
-            }
-          }
           languages(
-            first:10,
+            first:5,
             orderBy:{field:SIZE,direction:DESC}
           ) {
             totalSize
@@ -121,44 +99,40 @@ export default function StarredRepos({session}) {
   }
 
   return (
-    <main className="
-      container
-      mx-auto
-      flex
-      flex-col
-      items-center
-    ">
+    <main
+      style={{
+        margin: '0 auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}
+    >
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       {loading &&
-        <div className="
-          fixed
-          bottom-0
-          right-0
-          m-8
-          bg-transparent
-        ">
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '2rem',
+            right: '2rem'
+          }}
+        >
           <img src="/loading.svg" alt="Loading" width="50px" />
         </div>
       }
 
       <div
         style={{
-          backgroundColor: '#183d5d'
+          backgroundColor: '#183d5d',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          borderRadius: '0.25rem',
+          border: '1px solid rgb(147, 194, 219)'
         }}
-        className="
-          flex
-          flex-col
-          gap-2
-          rounded
-          shadow-xl
-          border
-          border-gray-700
-          text-white
-        "
       >
         {
           repos.map((repo) => {
