@@ -8,7 +8,8 @@ export default function GithubLogin({session}) {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'cetner'
+        alignItems: 'center',
+        margin: '2rem'
       }}
     >
       <button

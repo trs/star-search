@@ -8,7 +8,8 @@ export default function GithubLogout({session}) {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'cetner'
+        alignItems: 'center',
+        margin: '2rem'
       }}
     >
       <button
@@ -30,7 +31,7 @@ export default function GithubLogout({session}) {
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   if (!session) {
-    context.res.writeHead(302, {Location: '/auth/login'});
+    context.res.writeHead(302, {Location: '/login'});
     context.res.end();
   }
 

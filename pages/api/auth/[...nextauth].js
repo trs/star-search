@@ -14,9 +14,9 @@ const options = {
     })
   ],
   pages: {
-    signIn: '/auth/login',
-    signOut: '/auth/logout',
-    error: '/auth/error'
+    signIn: '/login',
+    signOut: '/logout',
+    error: '/error'
   },
   callbacks: {
     session: async (session, user) => {
