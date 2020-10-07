@@ -1,7 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 
-import Head from 'next/head';
-
 import { getSession } from 'next-auth/client';
 import { useQuery, ClientContext } from 'graphql-hooks'
 import createPersistedState from 'use-persisted-state';
@@ -108,36 +106,31 @@ export default function StarredRepos({session}) {
   return (
     <main
       style={{
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        maxWidth: '640px'
+        display: 'grid',
+        gridTemplateColumns: '1fr min(75ch, 90%) 1fr'
       }}
     >
-      <Head>
-        <title>Hacktoberfest Stars</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <div
         style={{
           position: 'fixed',
           bottom: '1rem',
           right: '1rem',
-          backgroundColor: 'transparent',
+          backgroundColor: 'rgb(24, 61, 93)',
+          border: '1px solid rgba(147, 194, 219, 0.25)',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          width: '50px',
-          height: '50px'
+          width: '40px',
+          height: '40px',
+          borderRadius: '0.25rem',
+          boxShadow: '0 1px 3px 0 rgba(147, 194, 219, 0.1), 0 1px 2px 0 rgba(147, 194, 219, 0.06)'
         }}
       >
         {loading
           ? <img
               src="/loading.svg"
               alt="Loading"
-              width="50px"
+              width="40px"
               style={{
                 pointerEvents: 'none',
                 userSelect: 'none'
@@ -151,13 +144,16 @@ export default function StarredRepos({session}) {
               style={{
                 border: 'none',
                 cursor: 'pointer',
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
+                display: 'block',
+                width: '40px',
+                height: '40px'
               }}
             >
             <img
               src="/refresh.svg"
               alt="Refresh"
-              width="25px"
+              width="20px"
             />
           </button>
         }
@@ -166,32 +162,26 @@ export default function StarredRepos({session}) {
       <div
         style={{
           color: 'rgb(147, 194, 219)',
-          alignSelf: 'flex-end',
           fontSize: '1rem',
-          lineHeight: '2rem'
+          lineHeight: '2.5rem',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          gap: '0.25rem'
         }}
       >
-        <p
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-            gap: '0.25rem'
-          }}
-        >
-          <span>⭐</span>
-          <span style={{
-            color: 'rgb(247, 250, 252)',
-            fontWeight: '600',
-            fontSize: '1.25rem'
-          }}
-          >{repos.length}</span>
-          /
-          <span style={{
-            fontWeight: '300'
-          }}
-          >{totalCount > 0 ? totalCount : '...'}</span>
-        </p>
+        <span>⭐</span>
+        <span style={{
+          color: 'rgb(247, 250, 252)',
+          fontWeight: '600',
+          fontSize: '1.25rem'
+        }}
+        >{repos.length}</span>
+        /
+        <span style={{
+          fontWeight: '300'
+        }}
+        >{totalCount > 0 ? totalCount : '...'}</span>
       </div>
 
       { repos.length > 0 &&
@@ -200,9 +190,9 @@ export default function StarredRepos({session}) {
           backgroundColor: '#183d5d',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1rem',
           borderRadius: '0.25rem',
-          border: '1px solid rgb(147, 194, 219)'
+          border: '1px solid rgba(147, 194, 219, 0.25)',
+          boxShadow: '0 1px 3px 0 rgba(147, 194, 219, 0.1), 0 1px 2px 0 rgba(147, 194, 219, 0.06)'
         }}
       >
         {

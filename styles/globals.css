@@ -15,6 +15,27 @@ a {
   text-decoration: none;
 }
 
-article:hover {
-  background-color: rgba(147, 194, 219, .25);
+main > * {
+  grid-column: 2;
+}
+
+article:hover > a, article > a:focus {
+  background-color: rgba(147, 194, 219, .20);
+  outline: none;
+}
+
+article:first-child > a {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
+article:last-child > a {
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+@media screen and (max-width: 500px) {
+  header {
+    flex-direction: column !important;
+  }
 }

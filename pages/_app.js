@@ -1,16 +1,23 @@
+import Head from 'next/head';
 import { Provider as AuthProvider } from 'next-auth/client';
 import { GraphQLClient, ClientContext } from 'graphql-hooks';
 
+import '../styles/globals.css';
+
 const client = new GraphQLClient({
   url: 'https://api.github.com/graphql'
-})
-
-import '../styles/globals.css';
+});
 
 function MyApp({ Component, pageProps }) {
   return (
     <ClientContext.Provider value={client}>
       <AuthProvider session={pageProps.session}>
+
+        <Head>
+          <title>Hacktoberfest Stars</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+
         <header
           style={{
             display: 'flex',
@@ -18,7 +25,7 @@ function MyApp({ Component, pageProps }) {
             gap: '1rem',
             justifyContent: 'center',
             alignItems: 'center',
-            margin: '1rem'
+            marginTop: '1rem'
           }}
         >
           <img
@@ -38,13 +45,14 @@ function MyApp({ Component, pageProps }) {
             <h1
               style={{
                 color: 'rgb(247, 250, 252)',
-                fontSize: '2.25rem',
+                fontSize: 'clamp(1.75rem, 1.1447rem + 2.1053vw, 2.25rem)',
                 fontWeight: 'bold'
               }}
             >Hacktoberfest Stars</h1>
             <p
               style={{
-                color: 'rgb(147, 194, 219)'
+                color: 'rgb(147, 194, 219)',
+                fontSize: 'clamp(0.75rem, 0.1447rem + 2.1053vw, 1.25rem)',
               }}
             >Your Hacktoberfest-eligible starred repositories</p>
           </div>
@@ -54,7 +62,7 @@ function MyApp({ Component, pageProps }) {
 
         <footer
           style={{
-            height: '1rem'
+            height: '2.5rem'
           }}
         ></footer>
       </AuthProvider>

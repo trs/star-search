@@ -1,22 +1,16 @@
 export function Repository({repo}) {
   return (
-    <article
-      style={{
-        color: 'rgb(247, 250, 252)',
-        padding: '0.5rem',
-        transitionProperty: 'border-color',
-        borderRadius: '0.25rem',
-        border: '1px solid transparent',
-        maxWidth: '640px'
-      }}
-    >
+    <article>
       <a target="_blank" rel="noopener noreferrer" href={repo.url}
         style={{
+          color: 'rgb(247, 250, 252)',
           display: 'flex',
           flexDirection: 'column',
           gap: '0.6rem',
-          padding: '0 0.5rem',
-          paddingBottom: '0.25rem',
+          padding: '1.5rem 1rem',
+          transitionProperty: 'background-color',
+          transitionDuration: '250ms',
+          border: '1px solid transparent'
         }}
       >
         <h2 style={{
