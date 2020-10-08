@@ -36,7 +36,7 @@ const STARRED_REPOSITORIES = `
             }
           }
           languages(
-            first:10,
+            first:100,
             orderBy:{field:SIZE,direction:DESC}
           ) {
             totalSize
@@ -127,15 +127,27 @@ export default function StarredRepos({session}) {
         }}
       >
         {loading
-          ? <img
-              src="/loading.svg"
-              alt="Loading"
-              width="40px"
+          ?
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="xMidYMid"
               style={{
                 pointerEvents: 'none',
-                userSelect: 'none'
+                userSelect: 'none',
+                width: '40px'
               }}
-            />
+            >
+              <circle cx="50" cy="50" r="0" fill="none" stroke="#93c2db" stroke-width="6">
+                <animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;40" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.5s"></animate>
+                <animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.5s"></animate>
+              </circle>
+              <circle cx="50" cy="50" r="0" fill="none" stroke="#ff8ae2" stroke-width="6">
+                <animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;40" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline"></animate>
+                <animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline"></animate>
+              </circle>
+              </svg>
           : <button
               onClick={() => {
                 setRepos([]);
@@ -150,11 +162,21 @@ export default function StarredRepos({session}) {
                 height: '40px'
               }}
             >
-            <img
-              src="/refresh.svg"
-              alt="Refresh"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="rgb(147, 194, 219)"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               width="20px"
-            />
+            >
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <polyline points="23 20 23 14 17 14"></polyline>
+              <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+            </svg>
+
           </button>
         }
       </div>
