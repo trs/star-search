@@ -20,7 +20,8 @@ export default function GithubLogin({session}) {
           color: '#F7FAFC',
           padding: '1rem 1.25rem',
           textTransform: 'uppercase',
-          backgroundColor: '#0069ff'
+          backgroundColor: '#0069ff',
+          cursor: 'pointer'
         }}
         onClick={() => signIn('github')}
       >Sign in with Github</button>

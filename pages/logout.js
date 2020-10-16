@@ -20,7 +20,8 @@ export default function GithubLogout({session}) {
           color: '#F7FAFC',
           padding: '1rem 1.25rem',
           textTransform: 'uppercase',
-          backgroundColor: '#0069ff'
+          backgroundColor: '#0069ff',
+          cursor: 'pointer'
         }}
         onClick={() => signOut('github')}
       >Sign out</button>
