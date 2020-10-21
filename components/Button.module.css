@@ -1,0 +1,8 @@
+.button {
+  background-color: #0069ff;
+  background-image: linear-gradient(#3387ff, #0069ff, #0052c7);
+}
+
+.button:active:hover {
+  background-image: linear-gradient(#0052c7, #0069ff, #3387ff);
+}
