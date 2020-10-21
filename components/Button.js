@@ -1,7 +1,10 @@
+import styles from './Button.module.css';
+
 export function Button({children, onClick}) {
   return (
     <>
       <button
+        className={styles.button}
         style={{
           fontSize: '1rem',
           border: 'none',
@@ -9,8 +12,6 @@ export function Button({children, onClick}) {
           color: '#F7FAFC',
           padding: '1rem 1.25rem',
           textTransform: 'uppercase',
-          backgroundColor: '#0069ff',
-          backgroundImage: 'linear-gradient(#3387ff, #0069ff, #0052c7)',
           display: 'inline-flex',
           flexDirection: 'row',
           alignItems: 'center',
