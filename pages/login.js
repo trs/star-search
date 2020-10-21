@@ -5,13 +5,16 @@ import createPersistedState from 'use-persisted-state';
 import {Button} from '../components/Button';
 
 const useRepos = createPersistedState('repos');
+const useCursor = createPersistedState('repo-cursor');
 
 export default function GithubLogin({session}) {
   if (session) return null;
 
   const [, setLocalStorageRepos] = useRepos([]);
+  const [, setCursor] = useCursor(null);
   useEffect(() => {
     setLocalStorageRepos([]);
+    setCursor(null);
   }, []);
 
   return (
