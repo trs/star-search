@@ -1,5 +1,7 @@
 import { getSession, signOut } from 'next-auth/client';
 
+import {Button} from '../components/Button';
+
 export default function GithubLogout({session}) {
   if (!session) return null;
 
@@ -12,19 +14,9 @@ export default function GithubLogout({session}) {
         margin: '2rem'
       }}
     >
-      <button
-        style={{
-          fontSize: '1rem',
-          border: 'none',
-          borderRadius: '0.75rem',
-          color: '#F7FAFC',
-          padding: '1rem 1.25rem',
-          textTransform: 'uppercase',
-          backgroundColor: '#0069ff',
-          cursor: 'pointer'
-        }}
-        onClick={() => signOut('github')}
-      >Sign out</button>
+      <Button onClick={() => signOut('github')}>
+        <span>Sign out</span>
+      </Button>
     </div>
   );
 }
