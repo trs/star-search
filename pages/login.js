@@ -1,9 +1,18 @@
 import { getSession, signIn } from 'next-auth/client';
+import { useEffect } from 'react';
+import createPersistedState from 'use-persisted-state';
 
 import {Button} from '../components/Button';
 
+const useRepos = createPersistedState('repos');
+
 export default function GithubLogin({session}) {
   if (session) return null;
+
+  const [, setLocalStorageRepos] = useRepos([]);
+  useEffect(() => {
+    setLocalStorageRepos([]);
+  }, []);
 
   return (
     <div
