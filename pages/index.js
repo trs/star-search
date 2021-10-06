@@ -167,7 +167,7 @@ export default function StarredRepos({session}) {
               viewBox="0 0 24 24"
               fill="none"
               stroke="#F4F0E1"
-              stroke-width="2"
+              strokeWidth="2"
               stroke-linecap="round"
               stroke-linejoin="round"
               width="20px"
