@@ -115,14 +115,14 @@ export default function StarredRepos({session}) {
           position: 'fixed',
           bottom: '1rem',
           right: '1rem',
-          backgroundColor: 'rgb(24, 61, 93)',
-          border: '1px solid rgba(147, 194, 219, 0.25)',
+          backgroundColor: '#2B3531',
+          border: '1px solid #677662',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           width: '40px',
           height: '40px',
-          borderRadius: '0.25rem',
+          borderRadius: '0.75rem',
           boxShadow: '0 1px 3px 0 rgba(147, 194, 219, 0.1), 0 1px 2px 0 rgba(147, 194, 219, 0.06)'
         }}
       >
@@ -139,11 +139,11 @@ export default function StarredRepos({session}) {
                 width: '40px'
               }}
             >
-              <circle cx="50" cy="50" r="0" fill="none" stroke="#93c2db" stroke-width="6">
+              <circle cx="50" cy="50" r="0" fill="none" stroke="#F74700" stroke-width="6">
                 <animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;40" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.5s"></animate>
                 <animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.5s"></animate>
               </circle>
-              <circle cx="50" cy="50" r="0" fill="none" stroke="#ff8ae2" stroke-width="6">
+              <circle cx="50" cy="50" r="0" fill="none" stroke="#8FA68A" stroke-width="6">
                 <animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;40" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline"></animate>
                 <animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline"></animate>
               </circle>
@@ -166,7 +166,7 @@ export default function StarredRepos({session}) {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="rgb(147, 194, 219)"
+              stroke="#F4F0E1"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -183,7 +183,7 @@ export default function StarredRepos({session}) {
 
       <div
         style={{
-          color: 'rgb(147, 194, 219)',
+          color: 'inherit',
           fontSize: '1rem',
           lineHeight: '2.5rem',
           display: 'flex',
@@ -194,7 +194,7 @@ export default function StarredRepos({session}) {
       >
         <span>⭐</span>
         <span style={{
-          color: 'rgb(247, 250, 252)',
+          color: 'inherit',
           fontWeight: '600',
           fontSize: '1.25rem'
         }}
@@ -209,10 +209,10 @@ export default function StarredRepos({session}) {
       { repos.length > 0 &&
       <div
         style={{
-          backgroundColor: '#183d5d',
+          backgroundColor: '#B53A25',
           display: 'flex',
           flexDirection: 'column',
-          borderRadius: '0.25rem',
+          borderRadius: '0.75rem',
           border: '1px solid rgba(147, 194, 219, 0.25)',
           boxShadow: '0 1px 3px 0 rgba(147, 194, 219, 0.1), 0 1px 2px 0 rgba(147, 194, 219, 0.06)'
         }}

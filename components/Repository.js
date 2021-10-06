@@ -3,7 +3,7 @@ export function Repository({repo}) {
     <article>
       <a target="_blank" rel="noopener noreferrer" href={repo.url}
         style={{
-          color: 'rgb(247, 250, 252)',
+          color: '#FFF7ED',
           display: 'flex',
           flexDirection: 'column',
           gap: '0.6rem',
@@ -31,7 +31,9 @@ export function Repository({repo}) {
           style={{
             display: 'flex',
             flexDirection: 'row',
-            height: '0.5rem'
+            height: '0.75rem',
+            borderRadius: '0.25rem',
+            overflow: 'hidden'
           }}
         >
         {
