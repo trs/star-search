@@ -6,17 +6,16 @@ export function Button({children, onClick}) {
       <button
         className={styles.button}
         style={{
-          fontSize: '1rem',
+          fontSize: '1.25rem',
           border: 'none',
-          borderRadius: '0.75rem',
-          color: '#F7FAFC',
-          padding: '1rem 1.25rem',
-          textTransform: 'uppercase',
+          borderRadius: '2rem',
+          color: '#FFFFFF',
+          padding: '1rem 2rem',
           display: 'inline-flex',
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '0.5rem',
+          gap: '1rem',
           cursor: 'pointer'
         }}
         onClick={onClick}
